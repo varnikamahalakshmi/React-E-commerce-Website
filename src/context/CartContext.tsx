@@ -1,0 +1,11 @@
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import type { Product } from "../data/products";
+type CartItem = Product & { quantity: number };
+type CartContextValue = { items: CartItem[]; addToCart: (product: Product, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void; removeFromCart: (id: string) => void; clearCart: () => void; count: number; total: number };
+const CartContext = createContext<CartContextValue | undefined>(undefined);
+const readCart = (): CartItem[] => { try { return JSON.parse(localStorage.getItem("lumora-cart") ?? "[]") as CartItem[]; } catch { return []; } };
+export function CartProvider({ children }: { children: ReactNode }) { const [items, setItems] = useState<CartItem[]>(readCart); useEffect(() => localStorage.setItem("lumora-cart", JSON.stringify(items)), [items]); const addToCart = (product: Product, quantity = 1) => setItems((current) => { const item = current.find((entry) => entry.id === product.id); return item ? current.map((entry) => entry.id === product.id ? { ...entry, quantity: entry.quantity + quantity } : entry) : [...current, { ...product, quantity }]; }); const updateQuantity = (id: string, quantity: number) => quantity < 1 ? setItems((current) => current.filter((item) => item.id !== id)) : setItems((current) => current.map((item) => item.id === id ? { ...item, quantity } : item)); const removeFromCart = (id: string) => setItems((current) => current.filter((item) => item.id !== id)); const clearCart = () => setItems([]); const value = useMemo(() => ({ items, addToCart, updateQuantity, removeFromCart, clearCart, count: items.reduce((sum, item) => sum + item.quantity, 0), total: items.reduce((sum, item) => sum + item.price * item.quantity, 0) }), [items]); return <CartContext.Provider value={value}>{children}</CartContext.Provider>; }
+// This hook intentionally shares the provider's context from the same module.
+// eslint-disable-next-line react-refresh/only-export-components
+export function useCart() { const context = useContext(CartContext); if (!context) throw new Error("useCart must be used within CartProvider"); return context; }

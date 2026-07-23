@@ -1,0 +1,9 @@
+import { Link } from "react-router-dom";
+import StoreLayout from "./components/StoreLayout";
+import ProductCard from "./components/ProductCard";
+import ProductImage from "./components/ProductImage";
+import { products } from "./data/products";
+const categories = ["Women Ethnic", "Women Western", "Men", "Kids", "Home & Kitchen", "Beauty"];
+function ProductSection({ title, items }: { title: string; items: typeof products }) { return <section className="page-section"><div className="section-heading"><h2>{title}</h2><Link to="/search">View all</Link></div><div className="product-grid">{items.map((product) => <ProductCard key={product.id} product={product} />)}</div></section>; }
+function Home() { return <StoreLayout><main><section className="hero"><div><p>New styles, every day</p><h1>Lowest Prices<br />Best Quality Shopping</h1><p>Discover fashion and more, curated just for you.</p><Link className="primary-button" to="/search">Shop Now</Link></div><ProductImage src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1100&q=85" alt="Fashion shopping" /></section><section className="page-section"><h2>Top Categories to Explore</h2><div className="category-grid">{categories.map((category, index) => <Link key={category} to={`/search?q=${encodeURIComponent(category)}`} className="category-tile"><ProductImage src={products[index].image} alt="" /><span>{category}</span></Link>)}</div></section><ProductSection title="Featured Collections" items={products.slice(0, 5)} /><section className="offer-strip"><p>✨ New user special</p><h2>Get up to 50% off on your first order</h2><Link to="/register">Create free account</Link></section><ProductSection title="Deals of the Day" items={products.slice(5, 10)} /><ProductSection title="Best Sellers" items={products.slice(-5)} /></main></StoreLayout>; }
+export default Home;
