@@ -8,6 +8,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import SearchPage from "./pages/SearchPage";
 import { AuthPage, OrdersPage, ProfilePage, WishlistPage } from "./pages/AccountPages";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function MyRoutes() {
   return (
@@ -17,6 +18,7 @@ function MyRoutes() {
       <Route path="/supplier/:page" element={<SupplierInfoPage />} />
       <Route path="/product/:id" element={<ProductDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/wishlist" element={<WishlistPage />} />
