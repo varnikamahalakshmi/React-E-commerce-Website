@@ -290,10 +290,7 @@ const categoryImages: Record<string, string[]> = {
     "photo-1586023492125-27b2c045efd7",
   ],
 
-  "Cookware": [
-    "photo-1556910103-1c02745aae4d",
-    "photo-1584990347449-a0e9d4c4e8f5",
-  ],
+
 
   "Glasses & Barware": [
     "photo-1513558161293-cdaf765ed2fd",
